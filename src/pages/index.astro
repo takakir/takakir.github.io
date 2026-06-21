@@ -1,0 +1,328 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero3D from "../components/Hero3D.tsx";
+import { Image } from "astro:assets";
+import craftMaster from "../assets/craft-master.jpg";
+---
+
+<Base>
+  <Nav />
+
+  <main>
+    <!-- ░░░ HERO (WebGL) ░░░ -->
+    <section class="hero" id="hero">
+      <Hero3D client:load />
+      <div class="hero__veil" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <h1 class="hero__title">
+          <span class="hero__line" data-i18n="hero.l1">匠の技と</span>
+          <span class="hero__line hero__line--accent" data-i18n="hero.l2">テクノロジーの融合</span>
+        </h1>
+        <p class="hero__lead" data-i18n="hero.lead">
+          受け継がれた手仕事の精緻さを、データとAIの力で次の時代へ。
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn-gold" href="#concept" data-i18n="hero.cta1">流儀を見る</a>
+          <a class="btn btn-ghost" href="#contact" data-i18n="hero.cta2">コンタクト</a>
+        </div>
+      </div>
+      <a href="#concept" class="hero__scroll" aria-label="scroll down">
+        <span data-i18n="hero.scroll">SCROLL</span>
+      </a>
+    </section>
+
+    <!-- ░░░ CONCEPT ░░░ -->
+    <section class="section" id="concept">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="concept.en">THE WAY</span>
+        <h2 class="section-title mt-2" data-i18n="concept.title">匠の技とテクノロジーの融合</h2>
+      </div>
+      <p class="lead reveal" data-i18n="concept.lead">
+        日本のものづくりが磨き上げてきたのは、細部への執着、再現性、そして「間（ま）」の感覚。
+        その暗黙知をデータとして捉え直し、AIと共に増幅させることで、技は失われずに、より遠くへ届きます。
+      </p>
+      <div class="pillars">
+        <article class="pillar reveal">
+          <span class="pillar__icon" aria-hidden="true">繊</span>
+          <h3 data-i18n="concept.p1.t">匠の精度</h3>
+          <p data-i18n="concept.p1.d">手仕事に宿る精緻さと判断を、構造化されたデータと工程として可視化する。</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="pillar__icon" aria-hidden="true">智</span>
+          <h3 data-i18n="concept.p2.t">AI・データの知性</h3>
+          <p data-i18n="concept.p2.d">生成AI・機械学習に加え、データスペースの設計で暗黙知をつなぎ、活かし、意思決定を支援する。</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="pillar__icon" aria-hidden="true">和</span>
+          <h3 data-i18n="concept.p3.t">調和の設計</h3>
+          <p data-i18n="concept.p3.d">人と技術が互いを引き立てる、持続可能で美しいワークフローをデザインする。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ░░░ THE CRAFT (cinematic band) ░░░ -->
+    <section class="band" id="craft" aria-label="匠の現場">
+      <Image
+        src={craftMaster}
+        alt="日本の伝統工房で手仕事に向き合う職人"
+        width={1920}
+        height={1280}
+        quality={76}
+        format="webp"
+        loading="lazy"
+        class="band__img"
+        data-parallax="0.12"
+      />
+      <div class="band__overlay" aria-hidden="true"></div>
+      <div class="band__content reveal">
+        <span class="eyebrow" data-i18n="band.en">THE CRAFT</span>
+        <p class="band__line" data-i18n="band.line">受け継がれた手仕事に、敬意を。</p>
+      </div>
+      <span class="band__credit">Photo: Jaipreet Singh / Unsplash</span>
+    </section>
+
+    <!-- ░░░ CONTACT ░░░ -->
+    <section class="section section--contact" id="contact">
+      <div class="contact-card reveal">
+        <span class="eyebrow" data-i18n="contact.en">CONTACT</span>
+        <h2 class="contact__title" data-i18n="contact.title">共に、次の技を編む。</h2>
+        <p class="contact__lead" data-i18n="contact.lead">
+          匠の技とテクノロジーを結ぶプロジェクトのご相談を承ります。
+        </p>
+        <div class="contact__actions">
+          <a class="btn btn-gold" href="https://www.linkedin.com/in/takakir/" target="_blank" rel="noopener" data-i18n="contact.linkedin">LinkedInでつながる</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__brand">
+      <img src={`${import.meta.env.BASE_URL}kamon.png`} alt="" width="28" height="28" />
+      <span>TAKAKI<span class="brand__dot">.</span>ai</span>
+    </div>
+    <p class="footer__tag" data-i18n="footer.tag">匠の技 × テクノロジー</p>
+    <p class="footer__copy">© <span id="year"></span> TAKAKI.ai — All rights reserved.</p>
+  </footer>
+</Base>
+
+<style>
+  /* ===================== HERO ===================== */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7rem clamp(1.25rem, 5vw, 3rem) 5rem;
+    overflow: hidden;
+    color: #f7f3ea;
+    background:
+      radial-gradient(120% 90% at 80% -10%, #27406e 0%, transparent 55%),
+      linear-gradient(160deg, #16223d 0%, #0d1729 60%, #0a1222 100%);
+  }
+  .hero__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(80% 70% at 30% 60%, transparent 40%, rgba(10, 18, 34, 0.55) 100%);
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    pointer-events: none;
+  }
+  .hero__inner a { pointer-events: auto; }
+  .hero__title {
+    font-family: "Noto Serif JP", serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 7.5vw, 5.2rem);
+    line-height: 1.18;
+    letter-spacing: 0.02em;
+    text-shadow: 0 6px 40px rgba(10, 18, 34, 0.6);
+  }
+  .hero__line { display: block; }
+  .hero__line--accent {
+    background: linear-gradient(100deg, #e7c977, #fff 60%, #e7c977);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero__lead {
+    margin-top: 1.8rem;
+    max-width: 40rem;
+    font-weight: 300;
+    font-size: clamp(0.98rem, 1.6vw, 1.16rem);
+    color: rgba(247, 243, 234, 0.9);
+  }
+  .hero__cta { margin-top: 2.6rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    color: #e7c977;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hero__scroll::after {
+    content: "";
+    width: 1px; height: 46px;
+    background: linear-gradient(#e7c977, transparent);
+    animation: scrollline 2s ease-in-out infinite;
+    transform-origin: top;
+  }
+  @keyframes scrollline {
+    0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  /* ===================== SECTIONS ===================== */
+  .section {
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(5rem, 9vw, 8.5rem) clamp(1.25rem, 5vw, 3rem);
+  }
+  .section__head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .mt-2 { margin-top: 0.6rem; }
+  .lead {
+    font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+    font-weight: 300;
+    max-width: 50rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+  .pillar {
+    padding: 2.2rem 1.8rem;
+    background: linear-gradient(180deg, #fff, #efe8d9);
+    border: 1px solid rgba(200, 162, 74, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 18px 50px -22px rgba(17, 28, 51, 0.45);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s;
+  }
+  .pillar:hover { transform: translateY(-8px); box-shadow: 0 28px 56px -24px rgba(17, 28, 51, 0.5); }
+  .pillar__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px; height: 56px;
+    font-family: "Noto Serif JP", serif;
+    font-size: 1.6rem;
+    color: #16223d;
+    background: radial-gradient(circle, rgba(200, 162, 74, 0.18), rgba(200, 162, 74, 0.06));
+    border: 1px solid rgba(200, 162, 74, 0.22);
+    border-radius: 50%;
+    margin-bottom: 1.2rem;
+  }
+  .pillar h3 { font-family: "Noto Serif JP", serif; font-size: 1.25rem; color: #16223d; margin-bottom: 0.6rem; }
+  .pillar p { font-size: 0.94rem; font-weight: 300; }
+
+  /* ===================== THE CRAFT (band) ===================== */
+  .band {
+    position: relative;
+    height: min(82vh, 760px);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+  }
+  .band__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 124%;
+    top: -12%;
+    object-fit: cover;
+    z-index: -2;
+    filter: saturate(0.92) contrast(1.02);
+  }
+  .band__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(120% 90% at 50% 50%, transparent 30%, rgba(13, 23, 41, 0.5) 100%),
+      linear-gradient(180deg, rgba(13, 23, 41, 0.55) 0%, rgba(13, 23, 41, 0.25) 40%, rgba(13, 23, 41, 0.75) 100%);
+  }
+  .band__content {
+    position: relative;
+    text-align: center;
+    color: #f7f3ea;
+    padding: 0 1.5rem;
+  }
+  .band__line {
+    font-family: "Noto Serif JP", serif;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4.2vw, 2.6rem);
+    line-height: 1.5;
+    margin-top: 0.8rem;
+    text-shadow: 0 6px 36px rgba(13, 23, 41, 0.6);
+  }
+  .band__content .eyebrow { color: #e7c977; }
+  .band__credit {
+    position: absolute;
+    right: 0.9rem;
+    bottom: 0.7rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: rgba(247, 243, 234, 0.55);
+  }
+
+  /* ===================== CONTACT ===================== */
+  .section--contact { padding-top: 2rem; }
+  .contact-card {
+    position: relative;
+    text-align: center;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    border-radius: 16px;
+    overflow: hidden;
+    color: #f7f3ea;
+    background:
+      radial-gradient(120% 120% at 50% 0%, #27406e 0%, transparent 60%),
+      linear-gradient(150deg, #16223d, #0d1729);
+    border: 1px solid rgba(200, 162, 74, 0.3);
+  }
+  .contact__title { font-family: "Noto Serif JP", serif; font-size: clamp(1.8rem, 4.5vw, 3rem); margin: 0.8rem 0 1rem; }
+  .contact__lead { max-width: 36rem; margin: 0 auto 2.2rem; font-weight: 300; color: rgba(247, 243, 234, 0.86); }
+  .contact__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ===================== FOOTER ===================== */
+  .footer { text-align: center; padding: 3rem 1.5rem 2.5rem; border-top: 1px solid rgba(200, 162, 74, 0.22); }
+  .footer__brand img { border-radius: 6px; object-fit: cover; }
+  .footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.25rem;
+    color: #16223d;
+    margin-bottom: 0.7rem;
+  }
+  .brand__dot { color: #a8842f; }
+  .footer__tag { font-size: 0.85rem; color: #a8842f; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .footer__copy { font-size: 0.78rem; opacity: 0.6; }
+
+  @media (max-width: 860px) {
+    .pillars { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .hero__cta { flex-direction: column; align-items: stretch; }
+  }
+</style>

@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gold: #c8a24a;
+    --gold-soft: #e7c977;
+    --gold-deep: #a8842f;
+    --indigo-800: #16223d;
+    --indigo-900: #0d1729;
+    --paper: #f7f3ea;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-[#2a2f3a] font-sansjp antialiased;
+    overflow-x: hidden;
+  }
+
+  /* paper / ambient wash */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(circle at 18% 8%, rgba(200, 162, 74, 0.06), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(35, 54, 95, 0.06), transparent 50%),
+      var(--paper);
+  }
+
+  ::selection {
+    background: rgba(200, 162, 74, 0.3);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded px-7 py-3 text-[0.92rem] tracking-wide font-medium transition-transform duration-300;
+    transition-timing-function: var(--ease);
+  }
+  .btn:hover {
+    transform: translateY(-3px);
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold-deep));
+    @apply text-indigo-900;
+    box-shadow: 0 12px 30px -12px rgba(168, 132, 47, 0.6);
+  }
+  .btn-ghost {
+    @apply border text-paper;
+    border-color: rgba(247, 243, 234, 0.3);
+  }
+  .btn-ghost:hover {
+    border-color: var(--gold-soft);
+  }
+
+  .eyebrow {
+    @apply font-display tracking-widest2 uppercase text-[0.82rem];
+    color: var(--gold-deep);
+  }
+
+  .section-title {
+    @apply font-serifjp font-bold leading-[1.35] text-indigo-800;
+    font-size: clamp(1.7rem, 4.2vw, 2.9rem);
+  }
+  .section-title::after {
+    content: "";
+    display: block;
+    width: 52px;
+    height: 3px;
+    margin-top: 1.1rem;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold-deep));
+    border-radius: 3px;
+  }
+}
+
+/* ---- scroll reveal (driven by GSAP/IntersectionObserver) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
