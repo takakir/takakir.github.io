@@ -24,7 +24,10 @@ export default function Hero3D() {
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      // Opaque canvas: paints its own dark background so additive points only
+      // ever brighten it. (A transparent canvas + additive blending composites
+      // as dark "blobs" on iOS/Safari.)
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
     } catch {
       return;
     }
@@ -45,7 +48,7 @@ export default function Hero3D() {
     const PR = Math.min(window.devicePixelRatio, 2);
     renderer.setPixelRatio(PR);
     renderer.setSize(width, height);
-    renderer.setClearColor(0x000000, 0);
+    renderer.setClearColor(0x0d1729, 1); // matches the hero CSS backdrop
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -80,6 +83,7 @@ export default function Hero3D() {
           uniform float uMul; uniform float uSoft;
           varying vec3 vColor;
           void main(){
+            if (dot(vColor, vColor) < 0.0002) discard; // skip un-born / dark points
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
             float a = pow(smoothstep(0.5, uSoft * 0.5, d), 1.4);
