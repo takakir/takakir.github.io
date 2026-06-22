@@ -41,7 +41,10 @@ export default function Hero3D() {
 
     (async () => {
       try {
-        renderer = new THREE.WebGPURenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+        // Force the WebGL2 backend: it reliably re-uploads the per-frame
+        // animated colour/position buffers across all browsers. (The WebGPU
+        // backend did not, leaving the network's nodes/arcs/packets invisible.)
+        renderer = new THREE.WebGPURenderer({ forceWebGL: true, antialias: true, alpha: true, powerPreference: "high-performance" });
       } catch {
         return;
       }
@@ -102,7 +105,9 @@ export default function Hero3D() {
       nodes.forEach((n, i) => nodePos.set([n.pos.x, n.pos.y, n.pos.z], i * 3));
       const nodeGeo = new THREE.BufferGeometry();
       nodeGeo.setAttribute("position", new THREE.BufferAttribute(nodePos, 3));
-      nodeGeo.setAttribute("aColor", new THREE.BufferAttribute(nodeCol, 3));
+      const nodeColAttr = new THREE.BufferAttribute(nodeCol, 3);
+      nodeColAttr.setUsage(THREE.DynamicDrawUsage);
+      nodeGeo.setAttribute("aColor", nodeColAttr);
       const nodeMat = new THREE.PointsNodeMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
       nodeMat.colorNode = vec4(attribute("aColor"), 1.0);
       nodeMat.size = 7.0;
@@ -155,7 +160,9 @@ export default function Hero3D() {
       });
       const arcGeo = new THREE.BufferGeometry();
       arcGeo.setAttribute("position", new THREE.BufferAttribute(arcPos, 3));
-      arcGeo.setAttribute("aColor", new THREE.BufferAttribute(arcCol, 3));
+      const arcColAttr = new THREE.BufferAttribute(arcCol, 3);
+      arcColAttr.setUsage(THREE.DynamicDrawUsage);
+      arcGeo.setAttribute("aColor", arcColAttr);
       const arcMat = new THREE.PointsNodeMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
       arcMat.colorNode = vec4(attribute("aColor"), 1.0);
       arcMat.size = 1.7;
@@ -166,8 +173,12 @@ export default function Hero3D() {
       const pkPos = new Float32Array(arcs.length * 3);
       const pkCol = new Float32Array(arcs.length * 3);
       const pkGeo = new THREE.BufferGeometry();
-      pkGeo.setAttribute("position", new THREE.BufferAttribute(pkPos, 3));
-      pkGeo.setAttribute("aColor", new THREE.BufferAttribute(pkCol, 3));
+      const pkPosAttr = new THREE.BufferAttribute(pkPos, 3);
+      pkPosAttr.setUsage(THREE.DynamicDrawUsage);
+      pkGeo.setAttribute("position", pkPosAttr);
+      const pkColAttr = new THREE.BufferAttribute(pkCol, 3);
+      pkColAttr.setUsage(THREE.DynamicDrawUsage);
+      pkGeo.setAttribute("aColor", pkColAttr);
       const pkMat = new THREE.PointsNodeMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
       pkMat.colorNode = vec4(attribute("aColor"), 1.0);
       pkMat.size = 4.2;
